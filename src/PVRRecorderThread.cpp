@@ -233,8 +233,6 @@ void *PVRRecorderThread::Process(void)
   double duration = nowTimer.Timer.endTime-nowTimer.Timer.startTime;
   t_duration = duration;
     
-  double length = 0;
-    
   int rtmpStream = 0;
   if(strStreamUrl.substr(0, 7) == "rtmp://"   ||
      strStreamUrl.substr(0, 8) == "rtmpt://"  ||

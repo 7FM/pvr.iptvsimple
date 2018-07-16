@@ -50,7 +50,7 @@ using namespace ADDON;
 std::string         s_system;
 std::mutex          p_mutex;
 
-extern PVRIptvData *m_iptv;
+extern PVRIptvData *m_data;
 extern std::string  g_strRecPath;
 extern std::string  g_strFFMPEG;
 extern std::string  g_strFileExt;
@@ -367,7 +367,7 @@ PVR_ERROR PVRDvrData::AddTimer(const PVR_TIMER &timer)
   channel.iUniqueId = timer.iClientChannelUid;
   bool foundEPG = false;
 
-  if (m_iptv->GetEPGTagForChannel(recTag, channel, startTime, startTime) == PVR_ERROR_NO_ERROR)
+  if (m_data->GetEPGTagForChannel(recTag, channel, startTime, startTime) == PVR_ERROR_NO_ERROR)
   {
     if (!strcmp(timer.strTitle, recTag.strTitle))
     {
@@ -548,7 +548,6 @@ PVR_ERROR PVRDvrData::GetRecordings(ADDON_HANDLE handle)
     // initialize PVR_REC (bug in call back function will not accpet &rec->second.Recording
     PVR_RECORDING recinfo;
     memset(&recinfo, 0, sizeof(PVR_RECORDING));
-    bool importRec = false;
 
     PVR_STRCPY(recinfo.strRecordingId, rec->second.Recording.strRecordingId);
     PVR_STRCPY(recinfo.strTitle, rec->second.Recording.strTitle);
@@ -919,7 +918,7 @@ bool PVRDvrData::GetChannel(const PVR_TIMER &timer, PVRIptvChannel &myChannel)
   PVR_CHANNEL channel;
   channel.iUniqueId = timer.iClientChannelUid;
 
-  return m_iptv->GetChannel(channel, myChannel);
+  return m_data->GetChannel(channel, myChannel);
 }
 
 bool PVRDvrData::GetTimer(const PVR_TIMER &timer, PVRDvrTimer &myTimer)

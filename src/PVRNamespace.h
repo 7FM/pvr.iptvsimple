@@ -30,6 +30,7 @@ using namespace ADDON;
 
 namespace ADDON
 {
+/*
   struct PVRIptvEpgEntry
   {
     int         iBroadcastId;
@@ -82,6 +83,7 @@ namespace ADDON
     int         iGenreSubType;
     std::string strGenre;
   };
+*/
 
   typedef enum
   {

@@ -26,14 +26,70 @@
  *
  */
 
+#include <map>
 #include <vector>
 #include <string>
-
 #include "p8-platform/util/StdString.h"
 #include "client.h"
 #include "p8-platform/threads/threads.h"
+#include "p8-platform/os.h"
+#include "libXBMC_pvr.h"
 
 using namespace ADDON;
+
+struct PVRIptvEpgEntry
+{
+  int         iBroadcastId;
+  int         iChannelId;
+  int         iGenreType;
+  int         iGenreSubType;
+  time_t      startTime;
+  time_t      endTime;
+  std::string strTitle;
+  std::string strPlotOutline;
+  std::string strPlot;
+  std::string strIconPath;
+  std::string strGenreString;
+};
+
+struct PVRIptvEpgChannel
+{
+  std::string                  strId;
+  std::string                  strName;
+  std::string                  strIcon;
+  std::vector<PVRIptvEpgEntry> epg;
+};
+
+struct PVRIptvChannel
+{
+  bool        bRadio;
+  int         iUniqueId;
+  int         iChannelNumber;
+  int         iEncryptionSystem;
+  int         iTvgShift;
+  std::string strChannelName;
+  std::string strLogoPath;
+  std::string strStreamURL;
+  std::string strTvgId;
+  std::string strTvgName;
+  std::string strTvgLogo;
+  std::map<std::string, std::string> properties;
+};
+
+struct PVRIptvChannelGroup
+{
+  bool              bRadio;
+  int               iGroupId;
+  std::string       strGroupName;
+  std::vector<int>  members;
+};
+
+struct PVRIptvEpgGenre
+{
+  int               iGenreType;
+  int               iGenreSubType;
+  std::string       strGenre;
+};
 
 class PVRIptvData : public P8PLATFORM::CThread
 {
@@ -88,4 +144,5 @@ private:
   std::vector<PVRIptvChannel>       m_channels;
   std::vector<PVRIptvEpgChannel>    m_epg;
   std::vector<PVRIptvEpgGenre>      m_genres;
+  P8PLATFORM::CMutex                m_mutex;
 };

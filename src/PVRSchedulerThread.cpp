@@ -96,7 +96,6 @@ void *PVRSchedulerThread::Process(void)
       //XBMC->Log(LOG_NOTICE, "Checking for scheduled jobs");
         PVRIptvChannel currChannel;
         PVRDvrTimer currTimer;
-        bool jobsUpdated = false;
         m_dvr->SetLock();
            
         std::map<int, PVRDvrTimer> Timers = m_dvr->GetTimerData();
