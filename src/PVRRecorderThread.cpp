@@ -358,7 +358,7 @@ void *PVRRecorderThread::Process(void)
   std::string readBuffer;
   streamsize bytesRead;
   time_t lastRead = time(NULL);
-  int lastSize = 0;
+  int64_t lastSize = 0;
 
   while(true)
   {
