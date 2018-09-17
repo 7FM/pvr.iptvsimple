@@ -78,6 +78,9 @@ std::string g_strFFPROBE     = "";
 std::string g_strFileExt     = "";
 int         g_iStrmTimeout   = 60;
 int         g_iStrmQuality   = 1;
+std::string g_strSmbPath     = "";
+std::string g_strSmbMount    = "";
+std::string g_strSmbUnmount  = "";
 
 extern std::string PathCombine(const std::string &strPath, const std::string &strFileName)
 {
@@ -215,6 +218,18 @@ void ADDON_ReadSettings(void)
   if (XBMC->GetSetting("streamQuality", &streamQuality))
   {
     g_iStrmQuality = streamQuality;
+  }
+  
+  if (XBMC->GetSetting("sambaPath", &buffer)) {
+    g_strSmbPath = buffer;
+  }
+
+  if (XBMC->GetSetting("sambaMount", &buffer)) {
+    g_strSmbMount = buffer;
+  }
+
+  if (XBMC->GetSetting("sambaUnmount", &buffer)) {
+    g_strSmbUnmount = buffer;
   }
 }
 

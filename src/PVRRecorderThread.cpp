@@ -45,6 +45,9 @@ extern std::string         g_strAVParams;
 extern std::string         g_strFFPROBE;
 extern std::string         g_strFileExt;
 extern int                 g_iStrmTimeout;
+extern std::string         g_strSmbPath;
+extern std::string         g_strSmbMount;
+extern std::string         g_strSmbUnmount;
 
 extern PVRDvrData         *m_dvr;
 
@@ -223,9 +226,18 @@ void *PVRRecorderThread::Process(void)
     }
   }
     
+  // create kodi file path
   std::string videoFile = g_strRecPath + filename;
+
+  // create newtwork file path accounting for SAMBA
+  std::string filePath;
+
+  if (g_strSmbPath.length() == 0)
+    filePath = g_strRecPath + filename;
+  else 
+    filePath = g_strSmbPath + filename;
     
-  XBMC->Log(LOG_NOTICE, "File to write: %s ", videoFile.c_str());
+  XBMC->Log(LOG_NOTICE, "File to write: %s ", filePath.c_str());
   
   std::string strParams;
   std::string strCommand;
@@ -302,7 +314,7 @@ void *PVRRecorderThread::Process(void)
     plot = plot.substr(0, 1020)+"....";
 
   // get import codes  
-  strParams =  " -i \""+strParams+"\" "+g_strAVParams+" -f "+g_strFileExt+" \""+BuildSMBPath(videoFile)+"\"";
+  strParams =  " -i \""+strParams+"\" "+g_strAVParams+" -f "+g_strFileExt+" \""+filePath+"\"";
 
   if (g_strFFMPEG.length() == 0)
   {
@@ -349,6 +361,17 @@ void *PVRRecorderThread::Process(void)
   // POSIX
   e_Stream.set_binary_mode(exec_stream_t::s_out);
   e_Stream.set_wait_timeout(exec_stream_t::s_out, g_iStrmTimeout*1000);
+
+  // mount SMB if enabled
+  if (g_strSmbMount.length() > 0)
+  {
+    std::string strMountCmd = g_strSmbMount.substr(0, g_strSmbMount.find(" "));
+    std::string strMountPar = g_strSmbMount.substr(g_strSmbMount.find(" "), g_strSmbMount.length());
+
+    e_Stream.start(strMountCmd, strMountPar);
+  }
+
+  // run FFMPEG
   e_Stream.start(g_strFFMPEG, strParams);
 
   XBMC->Log(LOG_NOTICE, "Set stream timeout: %d", g_iStrmTimeout);
@@ -408,7 +431,7 @@ void *PVRRecorderThread::Process(void)
       if (lastSize>0)
       {
         // correct duration
-        strParams = " -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 \""+BuildSMBPath(videoFile)+"\"";
+        strParams = " -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 \""+filePath+"\"";
 
         e_Stream.start(g_strFFPROBE, strParams);
 
@@ -459,7 +482,7 @@ void *PVRRecorderThread::Process(void)
       m_dvr->UpdateTimer(nowTimer);
       s_triggerTimerUpdate = true;
       s_triggerRecordingUpdate = true;
-      return NULL;  
+      break;  
     }
     else if (now-lastRead>=g_iStrmTimeout)
     {
@@ -480,7 +503,7 @@ void *PVRRecorderThread::Process(void)
       if (lastSize>0)
       {
         // correct duration
-        strParams = " -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 \""+BuildSMBPath(videoFile)+"\"";
+        strParams = " -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 \""+filePath+"\"";
 
         e_Stream.start(g_strFFPROBE, strParams);
 
@@ -531,9 +554,18 @@ void *PVRRecorderThread::Process(void)
       m_dvr->UpdateTimer(nowTimer);
       s_triggerTimerUpdate = true;
       s_triggerRecordingUpdate = true;
-      return NULL;      
+      break;     
     }
   }
 
-  return NULL;    
+  // unmount SMB if enabled
+  if (g_strSmbMount.length() > 0 && g_strSmbUnmount.length() > 0)
+  {
+    std::string strMountCmd = g_strSmbUnmount.substr(0, g_strSmbUnmount.find(" "));
+    std::string strMountPar = g_strSmbUnmount.substr(g_strSmbUnmount.find(" "), g_strSmbUnmount.length());
+
+    e_Stream.start(strMountCmd, strMountPar);
+  }
+
+  return NULL;  
 }

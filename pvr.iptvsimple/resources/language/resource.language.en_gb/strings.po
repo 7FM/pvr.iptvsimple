@@ -153,3 +153,15 @@ msgstr ""
 msgctxt "#30109"
 msgid "Stream timeout (sec)"
 msgstr ""
+
+msgctxt "#30110"
+msgid "SAMBA Path (optional)"
+msgstr 
+
+msgctxt "#30111"
+msgid "SAMBA Mount Code (optional)"
+msgstr ""
+
+msgctxt "#30112"
+msgid "SAMBA Unmount Code (optional)"
+msgstr ""

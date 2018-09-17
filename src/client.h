@@ -65,6 +65,9 @@ extern std::string g_strFFPROBE;
 extern std::string g_strFileExt;
 extern int         g_iStrmTimeout;
 extern int         g_iStrmQuality;
+extern std::string g_strSmbPath;
+extern std::string g_strSmbMount;
+extern std::string g_strSmbUnmount;
 
 extern std::string PathCombine(const std::string &strPath, const std::string &strFileName);
 extern std::string GetClientFilePath(const std::string &strFileName);
