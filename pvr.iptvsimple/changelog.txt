@@ -4,6 +4,9 @@ v4.0.1
 v4.0.0
 - Added recording capabilities using FFMPEG
 
+v3.5.4
+- Remove bundled rapidxml
+
 v3.5.2
 - Add support for #EXT-X-PLAYLIST-TYPE in M3U
 
