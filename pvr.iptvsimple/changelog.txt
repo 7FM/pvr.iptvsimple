@@ -4,6 +4,9 @@ v4.0.1
 v4.0.0
 - Added recording capabilities using FFMPEG
 
+v3.5.5
+- Bump zlib to version 1.2.11
+
 v3.5.4
 - Remove bundled rapidxml
 
