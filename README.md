@@ -1,5 +1,4 @@
-[![Build Status](https://travis-ci.org/kodi-pvr/pvr.iptvsimple.svg?branch=master)](https://travis-ci.org/kodi-pvr/pvr.iptvsimple)
-[![Coverity Scan Build Status](https://scan.coverity.com/projects/5120/badge.svg)](https://scan.coverity.com/projects/5120)
+[![Build Status](https://travis-ci.com/7FM/pvr.iptvsimple.svg?branch=master)](https://travis-ci.com/7FM/pvr.iptvsimple)
 
 # IPTV Simple PVR w/ Recording Support
 IPTV Live TV and Radio PVR client addon for [Kodi] (http://kodi.tv)
