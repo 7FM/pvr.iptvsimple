@@ -127,11 +127,11 @@ msgid "Path to ffprobe binary"
 msgstr ""
 
 msgctxt "#30103"
-msgid "Path to avconv binary"
+msgid "Path to ffmpeg binary"
 msgstr ""
 
 msgctxt "#30104"
-msgid "Recompression params for avconv"
+msgid "Recompression params for ffmpeg"
 msgstr ""
 
 msgctxt "#30105"
