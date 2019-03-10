@@ -50,6 +50,9 @@ struct PVRIptvEpgEntry
   std::string strPlot;
   std::string strIconPath;
   std::string strGenreString;
+  std::string strEpisodeName;
+  std::string striYear;
+
 };
 
 struct PVRIptvEpgChannel
