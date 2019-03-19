@@ -35,25 +35,25 @@
 
 using namespace ADDON;
 
-class PVRRecorderThread : P8PLATFORM::CThread
-{
-public: 
-  PVRRecorderThread(PVRIptvChannel &currChannel, PVRDvrTimer &currTimer);
-  virtual ~PVRRecorderThread(void);
+class PVRRecorderThread : P8PLATFORM::CThread {
+public:
+    PVRRecorderThread(PVRIptvChannel &currChannel, PVRDvrTimer &currTimer);
 
-  virtual void StopThread(bool bWait = true);
+    virtual ~PVRRecorderThread(void);
+
+    virtual void StopThread(bool bWait = true);
 
 public:
-  virtual void *Process(void);
+    virtual void *Process(void);
 
 protected:
-  virtual void CorrectDurationFLVFile(const std::string &videoFile, const double &duration);
+    virtual void CorrectDurationFLVFile(const std::string &videoFile, const double &duration);
 
 private:
-  FILE*          t_proc;
-  exec_stream_t  e_Stream;
-  double         t_duration;
-  PVRDvrTimer    t_currTimer;
-  PVRIptvChannel t_currChannel;
-  time_t         t_startRecTime;
+    FILE *t_proc;
+    exec_stream_t e_Stream;
+    double t_duration;
+    PVRDvrTimer t_currTimer;
+    PVRIptvChannel t_currChannel;
+    time_t t_startRecTime;
 };

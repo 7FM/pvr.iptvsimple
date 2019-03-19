@@ -28,8 +28,7 @@
 
 using namespace ADDON;
 
-namespace ADDON
-{
+namespace ADDON {
 /*
   struct PVRIptvEpgEntry
   {
@@ -85,39 +84,35 @@ namespace ADDON
   };
 */
 
-  typedef enum
-  {
-    PVR_STREAM_TYPE_RTMP              = 1,
-    PVR_STREAM_TYPE_FILE              = 2
-  } PVR_STREAM_TYPE;
-    
-  typedef enum
-  {
-    PVR_STREAM_NO_STREAM              = 0,
-    PVR_STREAM_START_RECORDING        = 1,
-    PVR_STREAM_IS_RECORDING           = 2,
-    PVR_STREAM_IS_STOPPING            = 3,
-    PVR_STREAM_STOPPED                = 4
-  } PVR_STREAM_STATUS;
-    
-  struct PVRDvrTimer
-  {
-    PVR_TIMER         Timer;
-    PVR_STREAM_STATUS Status;
-    std::string       strChannelName;
-    std::string       strPlot;
-    std::string       strPlotOutline;
-    std::string       strIconPath;
-    std::string       strGenre;
-    void*             ThreadPtr;
-    bool              bIsDeleted; 
-  };
+    typedef enum {
+        PVR_STREAM_TYPE_RTMP = 1,
+        PVR_STREAM_TYPE_FILE = 2
+    } PVR_STREAM_TYPE;
 
-  struct PVRDvrRecording
-  {
-    PVR_RECORDING Recording;
-    std::string   strFileName;
-    void*         ThreadPtr;
-    bool          bIsDeleted; 
-  };
+    typedef enum {
+        PVR_STREAM_NO_STREAM = 0,
+        PVR_STREAM_START_RECORDING = 1,
+        PVR_STREAM_IS_RECORDING = 2,
+        PVR_STREAM_IS_STOPPING = 3,
+        PVR_STREAM_STOPPED = 4
+    } PVR_STREAM_STATUS;
+
+    struct PVRDvrTimer {
+        PVR_TIMER Timer;
+        PVR_STREAM_STATUS Status;
+        std::string strChannelName;
+        std::string strPlot;
+        std::string strPlotOutline;
+        std::string strIconPath;
+        std::string strGenre;
+        void *ThreadPtr;
+        bool bIsDeleted;
+    };
+
+    struct PVRDvrRecording {
+        PVR_RECORDING Recording;
+        std::string strFileName;
+        void *ThreadPtr;
+        bool bIsDeleted;
+    };
 }

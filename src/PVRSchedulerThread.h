@@ -34,24 +34,26 @@
 
 using namespace ADDON;
 
-class PVRSchedulerThread : P8PLATFORM::CThread
-{
-public: 
-  PVRSchedulerThread(void);
-  virtual ~PVRSchedulerThread(void);
+class PVRSchedulerThread : P8PLATFORM::CThread {
+public:
+    PVRSchedulerThread(void);
 
-  virtual void StopThread(bool bWait = true);
-  virtual bool StartRecording(const PVRDvrTimer &myTimer);
-  virtual bool StopRecording(const PVRDvrTimer &myTimer);
+    virtual ~PVRSchedulerThread(void);
+
+    virtual void StopThread(bool bWait = true);
+
+    virtual bool StartRecording(const PVRDvrTimer &myTimer);
+
+    virtual bool StopRecording(const PVRDvrTimer &myTimer);
 
 public:
-  virtual void *Process(void);
+    virtual void *Process(void);
 
-private: 
-  std::string s_jobFile;
-  void*       v_fileHandle;
-  bool        b_stop;
-  bool        b_isWorking;
-  time_t      b_lastCheck;
-  int         b_interval;
+private:
+    std::string s_jobFile;
+    void *v_fileHandle;
+    bool b_stop;
+    bool b_isWorking;
+    time_t b_lastCheck;
+    int b_interval;
 };

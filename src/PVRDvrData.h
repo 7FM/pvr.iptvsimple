@@ -32,70 +32,103 @@
 
 using namespace ADDON;
 
-class PVRDvrData : public P8PLATFORM::CThread
-{
+class PVRDvrData : public P8PLATFORM::CThread {
 public:
-  PVRDvrData(void);
-  virtual ~PVRDvrData(void);
+    PVRDvrData(void);
 
-  virtual bool      ReLoadTimers(void);
-  virtual bool      ReLoadRecordings(void);
+    virtual ~PVRDvrData(void);
 
-  virtual PVR_ERROR AddTimer(const PVR_TIMER &timer);
-  virtual PVR_ERROR DeleteTimer(const PVR_TIMER &timer, bool bForceDelete);
-  virtual PVR_ERROR UpdateTimer(const PVR_TIMER &timer);
-  virtual PVR_ERROR GetTimers(ADDON_HANDLE handle);
-  virtual int       GetTimersAmount(void);
-  virtual PVR_ERROR GetRecordings(ADDON_HANDLE handle);
-  virtual int       GetRecordingsAmount(void);
-  virtual PVR_ERROR DeleteRecording(const PVR_RECORDING &recording);
-  virtual bool      OpenRecordedStream(const PVR_RECORDING &recording);
-  virtual void      CloseRecordedStream(void);
-  virtual int       ReadRecordedStream(unsigned char *pBuffer, unsigned int iBufferSize);
-  virtual long long SeekRecordedStream(long long iPosition, int iWhence /* = SEEK_SET */);
-  virtual long long GetReaderPosition(void);
-  virtual long long GetReaderLength(void);
-  virtual PVR_ERROR SetRecordingLastPlayedPosition(const PVR_RECORDING &recording, int lastplayedposition);
-  virtual int       GetRecordingLastPlayedPosition(const PVR_RECORDING &recording);
-  virtual PVR_ERROR SetRecordingPlayCount(const PVR_RECORDING &recording, int count);
+    virtual bool ReLoadTimers(void);
 
-public:
-  virtual std::map<int, PVRDvrTimer> GetTimerData(void);
-  virtual bool                       GetChannel(const PVR_TIMER &timer, PVRIptvChannel &myChannel);
-  virtual bool                       GetTimer(const PVR_TIMER &timer, PVRDvrTimer &myTimer);
-  virtual bool                       DeleteTimer(const PVRDvrTimer &myTimer, bool bForceDelete);
-  virtual bool                       UpdateTimer(const PVRDvrTimer &myTimer);
-  virtual bool                       RescheduleTimer(const PVRDvrTimer &myTimer);
+    virtual bool ReLoadRecordings(void);
 
-public:
-  virtual std::map<int, PVRDvrRecording> GetRecordingData(void);
-  virtual bool                           GetRecording(const PVR_RECORDING &recording, PVRDvrRecording &myRecording);
-  virtual bool                           AddRecording(const PVRDvrRecording &myRecording);
-  virtual bool                           DeleteRecording(const PVRDvrRecording &myRecording);
-  virtual bool                           UpdateRecording(const PVRDvrRecording &myRecording);
+    virtual PVR_ERROR AddTimer(const PVR_TIMER &timer);
 
-public:
-  virtual bool SetLock(void);
-  virtual void SetUnlock(void);
+    virtual PVR_ERROR DeleteTimer(const PVR_TIMER &timer, bool bForceDelete);
+
+    virtual PVR_ERROR UpdateTimer(const PVR_TIMER &timer);
+
+    virtual PVR_ERROR GetTimers(ADDON_HANDLE handle);
+
+    virtual int GetTimersAmount(void);
+
+    virtual PVR_ERROR GetRecordings(ADDON_HANDLE handle);
+
+    virtual int GetRecordingsAmount(void);
+
+    virtual PVR_ERROR DeleteRecording(const PVR_RECORDING &recording);
+
+    virtual bool OpenRecordedStream(const PVR_RECORDING &recording);
+
+    virtual void CloseRecordedStream(void);
+
+    virtual int ReadRecordedStream(unsigned char *pBuffer, unsigned int iBufferSize);
+
+    virtual long long SeekRecordedStream(long long iPosition, int iWhence /* = SEEK_SET */);
+
+    virtual long long GetReaderPosition(void);
+
+    virtual long long GetReaderLength(void);
+
+    virtual PVR_ERROR SetRecordingLastPlayedPosition(const PVR_RECORDING &recording, int lastplayedposition);
+
+    virtual int GetRecordingLastPlayedPosition(const PVR_RECORDING &recording);
+
+    virtual PVR_ERROR SetRecordingPlayCount(const PVR_RECORDING &recording, int count);
 
 public:
-  virtual void *Process(void);
+    virtual std::map<int, PVRDvrTimer> GetTimerData(void);
+
+    virtual bool GetChannel(const PVR_TIMER &timer, PVRIptvChannel &myChannel);
+
+    virtual bool GetTimer(const PVR_TIMER &timer, PVRDvrTimer &myTimer);
+
+    virtual bool DeleteTimer(const PVRDvrTimer &myTimer, bool bForceDelete);
+
+    virtual bool UpdateTimer(const PVRDvrTimer &myTimer);
+
+    virtual bool RescheduleTimer(const PVRDvrTimer &myTimer);
+
+public:
+    virtual std::map<int, PVRDvrRecording> GetRecordingData(void);
+
+    virtual bool GetRecording(const PVR_RECORDING &recording, PVRDvrRecording &myRecording);
+
+    virtual bool AddRecording(const PVRDvrRecording &myRecording);
+
+    virtual bool DeleteRecording(const PVRDvrRecording &myRecording);
+
+    virtual bool UpdateRecording(const PVRDvrRecording &myRecording);
+
+public:
+    virtual bool SetLock(void);
+
+    virtual void SetUnlock(void);
+
+public:
+    virtual void *Process(void);
 
 protected:
-  virtual bool        LoadTimers(void);
-  virtual bool        StoreTimerData(void);
-  virtual std::string GetTimerString(const PVRDvrTimer &myTimer);
-  virtual bool        ParseTimerString(const std::string buffStr, PVRDvrTimer &myTimer);
+    virtual bool LoadTimers(void);
+
+    virtual bool StoreTimerData(void);
+
+    virtual std::string GetTimerString(const PVRDvrTimer &myTimer);
+
+    virtual bool ParseTimerString(const std::string buffStr, PVRDvrTimer &myTimer);
 
 protected:
-  virtual bool        LoadRecordings(void);
-  virtual bool        StoreRecordingData(void);
-  virtual std::string GetRecordingString(const PVRDvrRecording &myRecording);
-  virtual bool        ParseRecordingString(std::string buffStr, PVRDvrRecording &myRecording);
+    virtual bool LoadRecordings(void);
+
+    virtual bool StoreRecordingData(void);
+
+    virtual std::string GetRecordingString(const PVRDvrRecording &myRecording);
+
+    virtual bool ParseRecordingString(std::string buffStr, PVRDvrRecording &myRecording);
 
 private:
-  std::map <int, PVRDvrTimer> m_timers;
+    std::map<int, PVRDvrTimer> m_timers;
 
 private:
-  std::map <int, PVRDvrRecording> m_recordings;
+    std::map<int, PVRDvrRecording> m_recordings;
 };

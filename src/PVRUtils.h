@@ -29,15 +29,17 @@
 
 using namespace ADDON;
 
-template <typename T>
-std::string to_string(T value)
-{
-    std::ostringstream os ;
-    os << value ;
-    return os.str() ;
+template<typename T>
+std::string to_string(T value) {
+    std::ostringstream os;
+    os << value;
+    return os.str();
 }
 
-extern void        CloseThreads(void);
+extern void CloseThreads(void);
+
 extern std::string BuildSMBPath(std::string netPath);
+
 extern std::string inttostr(int i);
-extern int         strtoint(std::string s);
+
+extern int strtoint(std::string s);

@@ -29,8 +29,7 @@
 using namespace std;
 using namespace ADDON;
 
-class PVRPlayList
-{
+class PVRPlayList {
 public:
-  bool GetPlaylist(string &strStreamUrl, vector<string> &vstrList);
+    bool GetPlaylist(string &strStreamUrl, vector <string> &vstrList);
 };

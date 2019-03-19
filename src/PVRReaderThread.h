@@ -34,31 +34,38 @@
 
 using namespace ADDON;
 
-class PVRReaderThread
-{
-public: 
-  PVRReaderThread(int recid, const std::string &filePath, time_t duration);
-  virtual ~PVRReaderThread(void);
+class PVRReaderThread {
+public:
+    PVRReaderThread(int recid, const std::string &filePath, time_t duration);
 
-  virtual bool    StartThread();
-  virtual void    StopThread(bool bWait = true);
-  virtual void    OnPlay(); 
-  virtual ssize_t ReadThread(unsigned char *buffer, unsigned int size);
-  virtual int64_t SeekThread(long long position, int whence);
-  virtual int64_t RecordingId();
-  virtual int64_t Position();
-  virtual int64_t Length();
+    virtual ~PVRReaderThread(void);
+
+    virtual bool StartThread();
+
+    virtual void StopThread(bool bWait = true);
+
+    virtual void OnPlay();
+
+    virtual ssize_t ReadThread(unsigned char *buffer, unsigned int size);
+
+    virtual int64_t SeekThread(long long position, int whence);
+
+    virtual int64_t RecordingId();
+
+    virtual int64_t Position();
+
+    virtual int64_t Length();
 
 private:
-  int          x_recid;
-  std::string  x_filePath;
-  void        *x_fileHandle;
+    int x_recid;
+    std::string x_filePath;
+    void *x_fileHandle;
 
-  time_t       x_end;
-  time_t       x_nextReopen;
-  bool         x_fastReopen;
+    time_t x_end;
+    time_t x_nextReopen;
+    bool x_fastReopen;
 
-  bool         x_playback;
-  uint64_t     x_pos;
-  uint64_t     x_len; 
+    bool x_playback;
+    uint64_t x_pos;
+    uint64_t x_len;
 };
