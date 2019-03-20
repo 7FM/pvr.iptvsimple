@@ -60,7 +60,7 @@ bool PVRPlayList::GetPlaylist(string &strStreamUrl, vector <string> &vstrList) {
             strContent.append(buffer, bytesRead);
 
             // check if it is m38u list
-            if (start == true) {
+            if (start) {
                 vector <string> vstrElems;
                 vstrElems = StringUtils::Split(strContent, "#EXTM3U");
 
@@ -104,7 +104,7 @@ bool PVRPlayList::GetPlaylist(string &strStreamUrl, vector <string> &vstrList) {
 
         vector<string>::iterator it(vstrLines.begin());
         for (it = vstrLines.begin(); it != vstrLines.end(); it++) {
-            if (found == false) {
+            if (!found) {
                 found = true;
                 continue;
             }
@@ -136,7 +136,7 @@ bool PVRPlayList::GetPlaylist(string &strStreamUrl, vector <string> &vstrList) {
                         int myBandwith = strtoint(StringUtils::Trim(vstrParamElems[1]));
                         XBMC->Log(LOG_NOTICE, "Found BANDWIDTH: %d", myBandwith);
 
-                        if (found_min == false) {
+                        if (!found_min) {
                             found_min = true;
                             minBandwith = myBandwith;
                             PlaylistUrl = strStream;
@@ -161,7 +161,7 @@ bool PVRPlayList::GetPlaylist(string &strStreamUrl, vector <string> &vstrList) {
             }
         }
 
-        if (ret == true) {
+        if (ret) {
             ret = GetPlaylist(PlaylistUrl, vstrList);
             strStreamUrl = PlaylistUrl;
         }
@@ -176,7 +176,7 @@ bool PVRPlayList::GetPlaylist(string &strStreamUrl, vector <string> &vstrList) {
             bool found = false;
             vector<string>::iterator it(vstrLines.begin());
             for (it = vstrLines.begin(); it != vstrLines.end(); it++) {
-                if (found == false) {
+                if (!found) {
                     found = true;
                     continue;
                 }

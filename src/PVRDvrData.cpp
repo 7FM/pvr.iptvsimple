@@ -347,7 +347,7 @@ PVR_ERROR PVRDvrData::AddTimer(const PVR_TIMER &timer) {
     time_t endTime = timer.endTime;
 
     if (timer.startTime == 0) {
-        if (foundEPG == true) {
+        if (foundEPG) {
             if (recTag.endTime > time(NULL) + 60)
                 endTime = recTag.endTime;
         }
@@ -390,7 +390,7 @@ PVR_ERROR PVRDvrData::AddTimer(const PVR_TIMER &timer) {
     currTimer.strChannelName = currChannel.strChannelName;
 
     // load EPG info
-    if (foundEPG == true) {
+    if (foundEPG) {
         currTimer.strPlot = recTag.strPlot;
         currTimer.strPlotOutline = recTag.strPlotOutline;
         currTimer.strIconPath = recTag.strIconPath;
@@ -916,7 +916,7 @@ bool PVRDvrData::RescheduleTimer(const PVRDvrTimer &myTimer) {
             nextRecDays++;
         }
 
-        if (reScheduled == true) {
+        if (reScheduled) {
             currTimer.Timer.startTime = currTimer.Timer.startTime + (oneDayInt * nextRecDays);
             currTimer.Timer.endTime = currTimer.Timer.endTime + (oneDayInt * nextRecDays);
             currTimer.Timer.firstDay = currTimer.Timer.startTime;

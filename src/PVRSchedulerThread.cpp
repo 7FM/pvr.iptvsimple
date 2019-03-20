@@ -63,14 +63,14 @@ PVRSchedulerThread::~PVRSchedulerThread(void) {
 
     XBMC->Log(LOG_NOTICE, "Closing scheduler thread");
 
-    while (b_isWorking == true)
+    while (b_isWorking)
         XBMC->Log(LOG_NOTICE, "Waiting for close scheduler thread");
 }
 
 void PVRSchedulerThread::StopThread(bool bWait /*= true*/) {
     b_stop = true;
 
-    while (b_isWorking == true)
+    while (b_isWorking)
         XBMC->Log(LOG_DEBUG, "Stopping scheduler thread");
 
     CThread::StopThread(bWait);
@@ -167,7 +167,7 @@ void *PVRSchedulerThread::Process(void) {
 
                 m_dvr->SetUnlock();
 
-                if (p_getTimersTransferFinished == true && s_triggerTimerUpdate == true) {
+                if (p_getTimersTransferFinished && s_triggerTimerUpdate) {
                     s_triggerTimerUpdate = false;
 
                     try {
@@ -179,7 +179,7 @@ void *PVRSchedulerThread::Process(void) {
                     }
                 }
 
-                if (p_getRecordingTransferFinished == true && s_triggerRecordingUpdate == true) {
+                if (p_getRecordingTransferFinished && s_triggerRecordingUpdate) {
                     s_triggerRecordingUpdate = false;
 
                     try {

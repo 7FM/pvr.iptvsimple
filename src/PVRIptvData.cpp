@@ -781,21 +781,21 @@ PVR_ERROR PVRIptvData::GetEPGTagForChannel(EPG_TAG &tag, const PVR_CHANNEL &chan
             tag.endTime = myTag->endTime + iShift;
             tag.strPlotOutline = myTag->strPlotOutline.c_str();
             tag.strPlot = myTag->strPlot.c_str();
+            tag.iYear = myTag->striYear.c_str();
+            tag.strIconPath = myTag->strIconPath.c_str();
             tag.strOriginalTitle = NULL;  /* not supported */
             tag.strCast = NULL;  /* not supported */
             tag.strDirector = NULL;  /* not supported */
             tag.strWriter = NULL;  /* not supported */
-            tag.iYear = myTag->striYear.c_str();
             tag.strIMDBNumber = NULL;  /* not supported */
-            tag.strIconPath = myTag->strIconPath.c_str();
             if (FindEpgGenre(myTag->strGenreString, iGenreType, iGenreSubType)) {
                 tag.iGenreType = iGenreType;
                 tag.iGenreSubType = iGenreSubType;
                 tag.strGenreDescription = NULL;
             } else {
                 tag.iGenreType = EPG_GENRE_USE_STRING;
-                tag.iGenreSubType = 0;   /* not supported */
                 tag.strGenreDescription = myTag->strGenreString.c_str();
+                tag.iGenreSubType = 0;   /* not supported */
             }
             tag.iParentalRating = 0;     /* not supported */
             tag.iStarRating = 0;     /* not supported */

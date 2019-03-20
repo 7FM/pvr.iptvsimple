@@ -103,63 +103,58 @@ void PVRRecorderThread::CorrectDurationFLVFile(const std::string &videoFile, con
     void *fileHandle;
     fileHandle = XBMC->OpenFile(videoFile.c_str(), 0);
 
-    XBMC->ReadFile(fileHandle, buffer, 1024);
+    ssize_t readBytes = XBMC->ReadFile(fileHandle, buffer, 1024);
     XBMC->CloseFile(fileHandle);
 
-    int loop_end = 1024 - 8 - sizeof(double);
-    int loop;
-    int pos = -1;
+    if (readBytes > 0) {
+        std::string flvFileData(buffer, readBytes);
+        std::size_t pos = flvFileData.rfind("duration");
 
-    for (loop = 0; loop < loop_end; loop++) {
-        if (buffer[loop] == 'd' && buffer[loop + 1] == 'u' && buffer[loop + 2] == 'r' && buffer[loop + 3] == 'a' &&
-            buffer[loop + 4] == 't' && buffer[loop + 5] == 'i' && buffer[loop + 6] == 'o' && buffer[loop + 7] == 'n')
-            pos = loop;
-    }
+        // correct 1024 first file bytes
+        if (pos != std::string::npos) {
+            pos = pos + 9;
+            union {
+                unsigned char dc[8];
+                double dd;
+            } d;
 
-    // correct 1024 first file bytes
-    if (pos >= 0) {
-        pos = pos + 9;
-        union {
-            unsigned char dc[8];
-            double dd;
-        } d;
+            d.dd = duration;
+            long one = 1;
 
-        d.dd = duration;
-        long one = 1;
+            // is isBigEndian?
+            if (!(*((char *) (&one)))) {
+                buffer[pos + 0] = d.dc[0];
+                buffer[pos + 1] = d.dc[1];
+                buffer[pos + 2] = d.dc[2];
+                buffer[pos + 3] = d.dc[3];
+                buffer[pos + 4] = d.dc[4];
+                buffer[pos + 5] = d.dc[5];
+                buffer[pos + 6] = d.dc[6];
+                buffer[pos + 7] = d.dc[7];
+            } else {
+                buffer[pos + 0] = d.dc[7];
+                buffer[pos + 1] = d.dc[6];
+                buffer[pos + 2] = d.dc[5];
+                buffer[pos + 3] = d.dc[4];
+                buffer[pos + 4] = d.dc[3];
+                buffer[pos + 5] = d.dc[2];
+                buffer[pos + 6] = d.dc[1];
+                buffer[pos + 7] = d.dc[0];
+            }
 
-        // is isBigEndian?
-        if (!(*((char *) (&one)))) {
-            buffer[pos + 0] = d.dc[0];
-            buffer[pos + 1] = d.dc[1];
-            buffer[pos + 2] = d.dc[2];
-            buffer[pos + 3] = d.dc[3];
-            buffer[pos + 4] = d.dc[4];
-            buffer[pos + 5] = d.dc[5];
-            buffer[pos + 6] = d.dc[6];
-            buffer[pos + 7] = d.dc[7];
-        } else {
-            buffer[pos + 0] = d.dc[7];
-            buffer[pos + 1] = d.dc[6];
-            buffer[pos + 2] = d.dc[5];
-            buffer[pos + 3] = d.dc[4];
-            buffer[pos + 4] = d.dc[3];
-            buffer[pos + 5] = d.dc[2];
-            buffer[pos + 6] = d.dc[1];
-            buffer[pos + 7] = d.dc[0];
+            fileHandle = XBMC->OpenFileForWrite(videoFile.c_str(), 0);
+
+            XBMC->SeekFile(fileHandle, 0, ios::beg);
+
+            int size = XBMC->WriteFile(fileHandle, buffer, readBytes);
+
+            if (size > 0) {
+                XBMC->Log(LOG_NOTICE, "Duration corrected");
+            }
+
+            XBMC->CloseFile(fileHandle);
+            return;
         }
-
-        fileHandle = XBMC->OpenFileForWrite(videoFile.c_str(), 0);
-
-        XBMC->SeekFile(fileHandle, 0, ios::beg);
-
-        int size = XBMC->WriteFile(fileHandle, buffer, 1024);
-
-        if (size > 0) {
-            XBMC->Log(LOG_NOTICE, "Duration corrected");
-        }
-
-        XBMC->CloseFile(fileHandle);
-        return;
     }
 
     XBMC->Log(LOG_NOTICE, "Duration correction failed");
@@ -188,15 +183,20 @@ void *PVRRecorderThread::Process(void) {
     time(&now);
     current = localtime(&now);
     std::string month = inttostr(current->tm_mon + 1);
-    if (current->tm_mon < 10) month = "0" + month;
+    if (current->tm_mon < 10)
+        month = "0" + month;
     std::string day = inttostr(current->tm_mday);
-    if (current->tm_mday < 10) day = "0" + day;
+    if (current->tm_mday < 10)
+        day = "0" + day;
     std::string hour = inttostr(current->tm_hour);
-    if (current->tm_hour < 10) hour = "0" + hour;
+    if (current->tm_hour < 10)
+        hour = "0" + hour;
     std::string min = inttostr(current->tm_min);
-    if (current->tm_min < 10) min = "0" + min;
+    if (current->tm_min < 10)
+        min = "0" + min;
     std::string sec = inttostr(current->tm_sec);
-    if (current->tm_sec < 10) sec = "0" + sec;
+    if (current->tm_sec < 10)
+        sec = "0" + sec;
 
     std::string strDate =
             " (" + inttostr(current->tm_year + 1900) + "-" + month + "-" + day + "T" + hour + "-" + min + "-" + sec +
@@ -217,9 +217,7 @@ void *PVRRecorderThread::Process(void) {
     std::string illegalChars = "\\/:?\"<>|*'";
     std::string::iterator it(filename.begin());
     for (it = filename.begin(); it < filename.end(); ++it) {
-        bool found = illegalChars.find(*it) != std::string::npos;
-
-        if (found) {
+        if (illegalChars.find(*it) != std::string::npos) {
             *it = ' ';
         }
     }
